@@ -1,0 +1,15 @@
+[submodule "miniqmc"]
+	path = miniqmc
+	url = https://github.com/QMCPACK/miniqmc.git
+[submodule "RSBench"]
+	path = RSBench
+	url = https://github.com/ANL-CESAR/RSBench.git
+[submodule "XSBench"]
+	path = XSBench
+	url = https://github.com/ANL-CESAR/XSBench.git
+[submodule "daphne-benchmark"]
+	path = daphne-benchmark
+	url = https://github.com/esa-tu-darmstadt/daphne-benchmark.git
+[submodule "RAJAPerf"]
+	path = RAJAPerf
+	url = https://github.com/LLNL/RAJAPerf.git
