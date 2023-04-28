@@ -13,3 +13,6 @@
 [submodule "RAJAPerf"]
 	path = RAJAPerf
 	url = https://github.com/LLNL/RAJAPerf.git
+[submodule "bots"]
+	path = bots
+	url = https://github.com/bsc-pm/bots.git
