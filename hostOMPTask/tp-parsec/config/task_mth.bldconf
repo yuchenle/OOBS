@@ -1,0 +1,24 @@
+#!/bin/bash
+
+export task_target=mth
+
+# Add options and links for mth task target
+# Only packages of the three benchmarking groups (apps, kernels, netapps) are targeted for task parallelization
+if [ "${pkg_group}" == "apps" -o "${pkg_group}" == "kernels" -o "${pkg_group}" == "netapps" ]; then
+  global_build_deps="${global_build_deps} mth"
+  # for mth
+  cflags="-I${PARSECDIR}/pkgs/libs/mth/inst/${PARSECPLAT}/include -DTO_MTHREAD_NATIVE -pthread"
+  CFLAGS="${CFLAGS} ${cflags}"
+  CXXFLAGS="${CXXFLAGS} ${cflags}"
+  LDFLAGS="${LDFLAGS} -L${PARSECDIR}/pkgs/libs/mth/inst/${PARSECPLAT}/lib -Wl,-R${PARSECDIR}/pkgs/libs/mth/inst/${PARSECPLAT}/lib"
+  LIBS="${LIBS} -lmyth -lpthread"
+fi  
+
+# Options for running
+if [ "${act}" == "run" ]; then
+  flags="MYTH_NUM_WORKERS=${NTHREADS}"
+  flags+=" MYTH_DEF_STKSIZE=2097152"
+  #flags+=" MYTH_DEF_STKSIZE=${stack_size} MYTH_CPU_LIST=%(myth_cpu_list)"
+  # If run_env exists (not null nor empty), append it with a whitespace prior to flags
+  run_env="${run_env:+$run_env }${flags}"
+fi

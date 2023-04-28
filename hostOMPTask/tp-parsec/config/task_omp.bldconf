@@ -1,0 +1,27 @@
+#!/bin/bash
+
+export task_target=omp
+
+# Add options and links for omp task target
+# Only packages of the three benchmarking groups (apps, kernels, netapps) are targeted for task parallelization
+if [ "${pkg_group}" == "apps" -o "${pkg_group}" == "kernels" -o "${pkg_group}" == "netapps" ]; then
+  global_build_deps="${global_build_deps}"
+  # for tpswitch (in mth)
+  cflags="-I${PARSECDIR}/pkgs/libs/mth/inst/${PARSECPLAT}/include"
+  # for omp
+  cflags="${cflags} -DTO_OMP -fopenmp"
+  CFLAGS="${CFLAGS} ${cflags}"
+  CXXFLAGS="${CXXFLAGS} ${cflags}"
+  LIBS="${LIBS}"
+  if [ "${platform}" == "g" ]; then
+    LIBS="${LIBS} -lgomp"
+  fi
+fi  
+
+# Options for running
+if [ "${act}" == "run" ]; then
+  flags="OMP_NUM_THREADS=${NTHREADS}"
+  # If run_env exists (not null nor empty), append it with a whitespace prior to flags
+  run_env="${run_env:+$run_env }${flags}"
+fi
+

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+export task_target=cilkplus
+
+# Add options and links for cilkplus task target
+# Only packages of the three benchmarking groups (apps, kernels, netapps) are targeted for task parallelization
+if [ "${pkg_group}" == "apps" -o "${pkg_group}" == "kernels" -o "${pkg_group}" == "netapps" ]; then
+  global_build_deps="${global_build_deps}"
+  # for tpswitch (in mth)
+  cflags="-I${PARSECDIR}/pkgs/libs/mth/inst/${PARSECPLAT}/include"
+  # for cilkplus
+  cflags="${cflags} -DTO_CILKPLUS"
+  if [ "${platform}" == "g" ]; then
+    cflags="${cflags} -fcilkplus"  
+  fi
+  CFLAGS="${CFLAGS} ${cflags}"
+  CXXFLAGS="${CXXFLAGS} ${cflags}"
+  LDFLAGS="${LDFLAGS}"
+  LIBS="${LIBS}"
+  if [ "${platform}" == "g" ]; then
+    LIBS="${LIBS} -lcilkrts"
+  fi
+fi
+
+# Options for running
+if [ "${act}" == "run" ]; then
+  flags="CILK_NWORKERS=${NTHREADS}"
+  # If run_env exists (not null nor empty), append it with a whitespace prior to flags
+  run_env="${run_env:+$run_env }${flags}"
+fi
