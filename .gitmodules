@@ -16,3 +16,6 @@
 [submodule "bots"]
 	path = bots
 	url = https://github.com/bsc-pm/bots.git
+[submodule "tp-parsec"]
+	path = tp-parsec
+	url = https://github.com/massivethreads/tp-parsec.git
